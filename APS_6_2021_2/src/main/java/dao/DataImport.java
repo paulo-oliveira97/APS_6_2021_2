@@ -4,34 +4,80 @@
  */
 package dao;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.ConnectionString;
-import com.mongodb.ServerAddress;
-import com.mongodb.MongoCredential;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
+import com.mongodb.*;
+import com.mongodb.client.*;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import org.bson.Document;
+import model.RendimentoSafrasModel;
 
-import java.util.Arrays;
-import java.util.List;
 /**
  *
  * @author paulo
  */
 public class DataImport {
-    
-    String CONNECTION_STRING = "mongodb+srv://admin:drQ3UmQKrn8vJyRm@aps6data.2mjoe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-    ConnectionString connectionString = new ConnectionString(CONNECTION_STRING);
-    MongoClientSettings settings = MongoClientSettings.builder()
-            .applyConnectionString(connectionString)
-            .build();
-    MongoClient mongoClient = MongoClients.create(settings);
-    MongoDatabase database = mongoClient.getDatabase("rendimento_lavouras_anual");
-    MongoCollection collection = database.getCollection("producao_kg_hectare");
-    MongoCursor cursor = (MongoCursor) collection.find();
-    
+
+    private static DataImport dao = null;
+
+    ArrayList dataList = new ArrayList<>();
+
+    public static DataImport getInstance() {
+        if (dao == null) {
+            dao = new DataImport();
+        }
+        return dao;
+    }
+
+    public ArrayList<RendimentoSafrasModel> getData(String _database, String _collection) throws IOException, ParseException, MongoException {
+
+        dataList.clear();
+
+        String URI = "mongodb+srv://admin:drQ3UmQKrn8vJyRm@aps6data.2mjoe.mongodb.net/rendimento_lavouras_anual?retryWrites=true&w=majority";
+
+        MongoClient client = null;
+        MongoDatabase database = null;
+        MongoCollection<Document> collection = null;
+
+        ConnectionString connectionString = new ConnectionString(URI);
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+        try {
+            client = MongoClients.create(settings);
+            database = client.getDatabase(_database);
+            collection = database.getCollection(_collection);
+            
+            
+            
+            FindIterable<Document> iterable = collection.find();
+            MongoCursor<Document> cursor = iterable.iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document obj = cursor.next();
+                    String ano = (String) obj.get("Ano da Safra");
+                    String regiao = (String) obj.get("Região");
+                    String estado = (String) obj.get("Estado");
+                    String produto = (String) obj.get("Produto das lavouras");
+                    String rendimento = (String) obj.get("Rendimento médio Kg/ha");
+                    dataList.add(new RendimentoSafrasModel(Integer.parseInt(ano), regiao, estado, produto, Integer.parseInt(rendimento)));
+                }
+            } catch (MongoException e) {
+                System.out.printf("while nao funcionou \n"+ e.toString());
+            }
+            cursor.close();
+            client.close();
+        } catch (MongoException e) {
+            System.out.printf("não funcionou nada nesse caralho \n" + e.toString());
+        }
+//        finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//            if (mongoClient != null) {
+//                mongoClient.close();
+//            }
+//        }
+        return dataList;
+    }
 }
