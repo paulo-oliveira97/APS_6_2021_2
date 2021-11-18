@@ -1,0 +1,47 @@
+db.rendimento_lavouras.updateMany(
+  {
+    $or:[
+      {
+        "Produção (Toneladas)": { $type: 2 },
+      },
+      {
+        "Área colhida (Hectares)": { $type: 2 },
+      },
+      {
+        "Área plantada (Hectares)": { $type: 2 },
+      }
+    ]
+  },
+  [
+    { 
+      $set: 
+      {
+        "Produção (Toneladas)":
+        {
+          $toInt: "$Produção (Toneladas)"
+        }
+      } 
+    },
+    { 
+      $set: 
+      {
+        "Área colhida (Hectares)":
+        {
+          $toInt: "$Área colhida (Hectares)"
+        }
+      } 
+    },
+    { 
+      $set: 
+      {
+        "Área plantada (Hectares)":
+        {
+          $toInt: "$Área plantada (Hectares)"
+        }
+      } 
+    }
+  ],
+  { 
+    multi: true 
+  }
+)

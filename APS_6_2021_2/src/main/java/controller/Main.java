@@ -4,7 +4,7 @@
  */
 package controller;
 
-import view.DataSelectionScreen;
+import view.DataTableScreen;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        DataSelectionScreen dataSelectionScreen = new DataSelectionScreen();
+        DataTableScreen dataSelectionScreen = new DataTableScreen();
         dataSelectionScreen.setVisible(true);
     }
     

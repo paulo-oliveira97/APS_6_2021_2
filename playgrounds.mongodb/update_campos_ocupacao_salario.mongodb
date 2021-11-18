@@ -1,0 +1,47 @@
+db.ocupacao_e_salario.updateMany(
+  {
+    $or:[
+      {
+        "Pessoal ocupado assalariado": { $type: 2 },
+      },
+      {
+        "Pessoal ocupado total": { $type: 2 },
+      },
+      {
+        "Total de empresas": { $type: 2 },
+      }
+    ]
+  },
+  [
+    { 
+      $set: 
+      {
+        "Pessoal ocupado assalariado":
+        {
+          $toInt: "$Pessoal ocupado assalariado"
+        }
+      } 
+    },
+    { 
+      $set: 
+      {
+        "Pessoal ocupado total":
+        {
+          $toInt: "$Pessoal ocupado total"
+        }
+      } 
+    },
+    { 
+      $set: 
+      {
+        "Total de empresas":
+        {
+          $toInt: "$Total de empresas"
+        }
+      } 
+    }
+  ],
+  { 
+    multi: true 
+  }
+)

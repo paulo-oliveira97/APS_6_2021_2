@@ -1,0 +1,15 @@
+//db.ocupacao_e_salario.updateMany({"Pessoal ocupado total":"-"},{$set: {"Pessoal ocupado total":"0"}});
+//db.ocupacao_e_salario.updateMany({"Pessoal ocupado assalariado":"-"},{$set: {"Pessoal ocupado assalariado":"0"}});
+//db.ocupacao_e_salario.updateMany({"Total de empresas":"-"},{$set: {"Total de empresas":"0"}});
+
+db.ocupacao_e_salario.updateMany({"Pessoal ocupado total":"X"},{$set: {"Pessoal ocupado total":"-1"}});
+db.ocupacao_e_salario.updateMany({"Pessoal ocupado assalariado":"X"},{$set: {"Pessoal ocupado assalariado":"-1"}});
+db.ocupacao_e_salario.updateMany({"Total de empresas":"X"},{$set: {"Total de empresas":"-1"}});
+
+db.ocupacao_e_salario.updateMany({"Pessoal ocupado total":".."},{$set: {"Pessoal ocupado total":"-2"}});
+db.ocupacao_e_salario.updateMany({"Pessoal ocupado assalariado":".."},{$set: {"Pessoal ocupado assalariado":"-2"}});
+db.ocupacao_e_salario.updateMany({"Total de empresas":".."},{$set: {"Total de empresas":"-2"}});
+
+db.ocupacao_e_salario.updateMany({"Pessoal ocupado total":"..."},{$set: {"Pessoal ocupado total":"-3"}});
+db.ocupacao_e_salario.updateMany({"Pessoal ocupado assalariado":"..."},{$set: {"Pessoal ocupado assalariado":"-3"}});
+db.ocupacao_e_salario.updateMany({"Total de empresas":"..."},{$set: {"Total de empresas":"-3"}});

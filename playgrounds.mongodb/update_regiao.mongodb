@@ -1,0 +1,113 @@
+use('acesso_nivel1')
+
+db.ocupacao_e_salario.updateMany(
+{
+  $or: [
+    {
+      "Unidade da Federação":"Acre"
+    },
+    {
+      "Unidade da Federação":"Amapá"
+    },
+    {
+      "Unidade da Federação":"Amazonas"
+    },
+    {
+      "Unidade da Federação":"Pará"
+    },
+    {
+      "Unidade da Federação":"Rondônia"
+    },
+    {
+      "Unidade da Federação":"Roraima"
+    },
+    {
+      "Unidade da Federação":"Tocantins"
+    }
+  ]
+},{$set: {"Região": "Norte"}});
+
+db.ocupacao_e_salario.updateMany(
+{
+  $or: [
+    {
+      "Unidade da Federação":"Alagoas"
+    },
+    {
+      "Unidade da Federação":"Bahia"
+    },
+    {
+      "Unidade da Federação":"Ceará"
+    },
+    {
+      "Unidade da Federação":"Maranhão"
+    },
+    {
+      "Unidade da Federação":"Paraíba"
+    },
+    {
+      "Unidade da Federação":"Piauí"
+    },
+    {
+      "Unidade da Federação":"Rio Grande do Norte"
+    },
+    {
+      "Unidade da Federação":"Pernambuco"
+    },
+    {
+      "Unidade da Federação":"Sergipe"
+    }
+  ]
+},{$set: {"Região": "Nordeste"}});
+
+db.ocupacao_e_salario.updateMany(
+{
+  $or: [
+    {
+      "Unidade da Federação":"Distrito Federal"
+    },
+    {
+      "Unidade da Federação":"Goiás"
+    },
+    {
+      "Unidade da Federação":"Mato Grosso"
+    },
+    {
+      "Unidade da Federação":"Mato Grosso do Sul"
+    }
+  ]
+},{$set: {"Região": "Centro-Oeste"}});
+
+db.ocupacao_e_salario.updateMany(
+{
+  $or: [
+    {
+      "Unidade da Federação":"Espírito Santo"
+    },
+    {
+      "Unidade da Federação":"Minas Gerais"
+    },
+    {
+      "Unidade da Federação":"Rio de Janeiro"
+    },
+    {
+      "Unidade da Federação":"São Paulo"
+    }
+  ]
+},{$set: {"Região": "Sudeste"}});
+
+db.ocupacao_e_salario.updateMany(
+{
+  $or: [
+    {
+      "Unidade da Federação":"Paraná"
+    },
+    {
+      "Unidade da Federação":"Rio Grande do Sul"
+    },
+    {
+      "Unidade da Federação":"Santa Catarina"
+    }
+  ]
+},{$set: {"Região": "Sul"}})
+
