@@ -48,17 +48,21 @@ public class LavourasRendimentoView {
             public Class getColumnClass(int columnIndex) {
                 return this.types[columnIndex];
             }
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         });
 
         for (LavourasRendimento d : list) {
-            String[] row = {
+            Object[] row = {
                 d.getAnoSafra(),
                 d.getRegiao(),
                 d.getEstado(),
                 d.getProduto(),
-                String.valueOf(d.getAreaPlantadaHa()),
-                String.valueOf(d.getAreaColhidaHa()),
-                String.valueOf(d.getProducaoT())
+                d.getAreaPlantadaHa(),
+                d.getAreaColhidaHa(),
+                d.getProducaoT()
             };
             table.addRow(row);
         }

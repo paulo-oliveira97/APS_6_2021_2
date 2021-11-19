@@ -5,6 +5,7 @@
 package controller;
 
 import view.DataTableScreen;
+import view.AuthScreen;
 
 /**
  *
@@ -17,8 +18,10 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        DataTableScreen dataSelectionScreen = new DataTableScreen();
-        dataSelectionScreen.setVisible(true);
+        //DataTableScreen dataSelectionScreen = new DataTableScreen();
+        AuthScreen authScreen = new AuthScreen();
+        //dataSelectionScreen.setVisible(true);
+        authScreen.setVisible(true);
     }
     
 }

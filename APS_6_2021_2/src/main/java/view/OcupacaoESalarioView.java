@@ -47,18 +47,22 @@ public class OcupacaoESalarioView {
             @Override
             public Class getColumnClass(int columnIndex) {
                 return this.types[columnIndex];
+            }            
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
             }
         });
 
         for (OcupacaoESalario d : list) {
-            String[] row = {
+            Object[] row = {
                 d.getAno(),
                 d.getRegiao(),
                 d.getEstado(),
                 d.getCnae(),
-                String.valueOf(d.getTotalEmpresas()),
-                String.valueOf(d.getPessoalAssalariado()),
-                String.valueOf(d.getPessoalOcupado()),
+                d.getTotalEmpresas(),
+                d.getPessoalAssalariado(),
+                d.getPessoalOcupado(),
             };
             table.addRow(row);
         }
