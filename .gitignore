@@ -91,3 +91,6 @@ hs_err_pid*
 /APS_6_2021_2/build/
 /APS_6_2021_2/dist/
 /test/target/
+/APS_6_2021_2/APSServlet/target/
+/APS_6_2021_2/APS_Servlet/target/
+/APS_Servlet/target/

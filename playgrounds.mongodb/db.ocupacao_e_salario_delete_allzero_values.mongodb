@@ -1,0 +1,9 @@
+db.ocupacao_e_salario.deleteMany(
+  {
+    $and:[
+      {"Pessoal ocupado total":"0"},
+      {"Pessoal ocupado assalariado":"0"},
+      {"Total de empresas":"0"}
+    ]
+  }
+)
