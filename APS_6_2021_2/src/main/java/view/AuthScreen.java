@@ -3,13 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
-
+import controller.Authentication;
 /**
  *
  * @author paulo
@@ -85,6 +81,9 @@ public class AuthScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUploadAuthImageMouseClicked
 
+    private String getFingerprintFilePath(){
+        return this.filePath;
+    }
     /**
      * @param args the command line arguments
      */

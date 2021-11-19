@@ -2,35 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package view;
+package view.AcessoPublico;
 
 import java.io.IOException;
 import java.text.ParseException;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
-import model.LavourasRendimento;
-import controller.LavourasRendimentoControl;
+import model.AcessoPublico.OcupacaoESalario;
+import controller.AcessoPublico.OcupacaoESalarioControl;
 
 /**
  *
  * @author paulo
  */
-public class LavourasRendimentoView {
+public class OcupacaoESalarioView {
     private static final String [] columns = {
-        "Ano da safra",
-        "Unidade da Federação",
+        "Ano",
         "Região",
-        "Produto das lavouras",
-        "Área plantada (Hectares)",
-        "Área colhida (Hectares)",
-        "Produção (Toneladas)",
+        "Unidade da Federação",
+        "CNAE",
+        "Total de empresas",
+        "Pessoal ocupado assalariado",
+        "Pessoal ocupado total"
     };
     public static DefaultTableModel getTableModel(int i) throws IOException, ParseException {
         
-        ArrayList<LavourasRendimento> list = null;
+        ArrayList<OcupacaoESalario> list = null;
         
         if (i == 0) {
-            list = LavourasRendimentoControl.getInstance().getData();
+            list = OcupacaoESalarioControl.getInstance().getData();
         }
 
         DefaultTableModel table = (new DefaultTableModel(columns, 0) {
@@ -47,22 +47,22 @@ public class LavourasRendimentoView {
             @Override
             public Class getColumnClass(int columnIndex) {
                 return this.types[columnIndex];
-            }
+            }            
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         });
 
-        for (LavourasRendimento d : list) {
+        for (OcupacaoESalario d : list) {
             Object[] row = {
-                d.getAnoSafra(),
+                d.getAno(),
                 d.getRegiao(),
                 d.getEstado(),
-                d.getProduto(),
-                d.getAreaPlantadaHa(),
-                d.getAreaColhidaHa(),
-                d.getProducaoT()
+                d.getCnae(),
+                d.getTotalEmpresas(),
+                d.getPessoalAssalariado(),
+                d.getPessoalOcupado(),
             };
             table.addRow(row);
         }

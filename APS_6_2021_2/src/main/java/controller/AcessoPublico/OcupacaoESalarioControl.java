@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package controller;
+package controller.AcessoPublico;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -14,29 +14,29 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import java.util.ArrayList;
-import model.LavourasRendimento;
+import model.AcessoPublico.OcupacaoESalario;
 import org.bson.Document;
 
 /**
  *
  * @author paulo
  */
-public class LavourasRendimentoControl {
+public class OcupacaoESalarioControl {
 
-    private static LavourasRendimentoControl dao = null;
+    private static OcupacaoESalarioControl dao = null;
 
     ArrayList dataList = new ArrayList<>();
     String _database = "acesso_nivel1";
-    String _collection = "rendimento_lavouras";
+    String _collection = "ocupacao_e_salario";
 
-    public static LavourasRendimentoControl getInstance() {
+    public static OcupacaoESalarioControl getInstance() {
         if (dao == null) {
-            dao = new LavourasRendimentoControl();
+            dao = new OcupacaoESalarioControl();
         }
         return dao;
     }
 
-    public ArrayList<LavourasRendimento> getData() {
+    public ArrayList<OcupacaoESalario> getData() {
 
         String URI = "mongodb+srv://admin:drQ3UmQKrn8vJyRm@aps6data.2mjoe.mongodb.net/acesso_nivel1?retryWrites=true&w=majority";
 
@@ -59,14 +59,14 @@ public class LavourasRendimentoControl {
             try {
                 while (cursor.hasNext()) {
                     Document obj = cursor.next();
-                    String ano = obj.get("Ano da safra", String.class);
+                    String ano = obj.get("Ano", String.class);
                     String regiao = obj.get("Região", String.class);
                     String estado = obj.get("Unidade da Federação", String.class);
-                    String produto = obj.get("Produto das lavouras", String.class);
-                    int areaPlantadaHa = obj.get("Área plantada (Hectares)", Integer.class);
-                    int areaColhidaHa = obj.get("Área colhida (Hectares)", Integer.class);
-                    int producaoT = obj.get("Produção (Toneladas)", Integer.class);
-                    dataList.add(new LavourasRendimento(ano, regiao, estado, produto, areaPlantadaHa, areaColhidaHa, producaoT));
+                    String cnae = obj.get("CNAE", String.class);
+                    int pessoalAssalariado = obj.get("Total de empresas", Integer.class);
+                    int pessoalOcupado = obj.get("Pessoal ocupado total", Integer.class);
+                    int totalEmpresas = obj.get("Pessoal ocupado assalariado", Integer.class);
+                    dataList.add(new OcupacaoESalario(ano, regiao, estado, cnae, pessoalAssalariado, pessoalOcupado, totalEmpresas));
                 }
             } catch (ClassCastException e) {
                 System.out.printf(e.getMessage());
