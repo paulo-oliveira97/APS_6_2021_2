@@ -4,8 +4,7 @@
  */
 package controller;
 
-import view.AcessoPublico.AcessoPublicoDataScreen;
-import view.AcessoDiretores.AcessoDiretoresDataScreen;
+
 import view.AuthScreen;
 
 /**
@@ -19,9 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        //AcessoPublicoDataScreen screen = new AcessoPublicoDataScreen();
-        AcessoDiretoresDataScreen screen = new AcessoDiretoresDataScreen();
-        //AuthScreen screen = new AuthScreen();
+        AuthScreen screen = new AuthScreen();
         screen.setVisible(true);
         
     }

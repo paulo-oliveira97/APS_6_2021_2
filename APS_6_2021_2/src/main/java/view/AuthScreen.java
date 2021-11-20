@@ -3,17 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import controller.Authentication;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import view.AcessoPublico.AcessoPublicoDataScreen;
+import view.AcessoDiretores.AcessoDiretoresDataScreen;
+
 /**
  *
  * @author paulo
  */
 public class AuthScreen extends javax.swing.JFrame {
-    
-    private String filePath = "";
 
+    private String filePath = "";
 
     /**
      * Creates new form AuthScreen
@@ -31,12 +41,17 @@ public class AuthScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        groupDptos = new javax.swing.ButtonGroup();
         btnUploadAuthImage = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        rbDiretoria = new javax.swing.JRadioButton();
+        rbMinisterio = new javax.swing.JRadioButton();
+        rbPublico = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnUploadAuthImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fingerprint.png"))); // NOI18N
+        btnUploadAuthImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ico-fp.png"))); // NOI18N
         btnUploadAuthImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnUploadAuthImageMouseClicked(evt);
@@ -44,27 +59,55 @@ public class AuthScreen extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Clique para autenticar:");
+        jLabel2.setText("Selecione o departamento");
+
+        groupDptos.add(rbDiretoria);
+        rbDiretoria.setText("Diretoria");
+
+        groupDptos.add(rbMinisterio);
+        rbMinisterio.setText("Ministerio");
+
+        groupDptos.add(rbPublico);
+        rbPublico.setText("Público");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Clique para autenticar:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnUploadAuthImage)
-                    .addComponent(jLabel2))
-                .addContainerGap(79, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rbPublico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbDiretoria)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbMinisterio))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel2))
+                    .addComponent(jLabel3))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(78, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(35, 35, 35)
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbDiretoria)
+                    .addComponent(rbMinisterio)
+                    .addComponent(rbPublico))
+                .addGap(30, 30, 30)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUploadAuthImage)
-                .addGap(71, 71, 71))
+                .addGap(36, 36, 36))
         );
 
         pack();
@@ -72,18 +115,68 @@ public class AuthScreen extends javax.swing.JFrame {
 
     private void btnUploadAuthImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadAuthImageMouseClicked
         // TODO add your handling code here:
+        String file;
+        if (groupDptos.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Selecione um departamento!");
+        } else {
+            if (rbPublico.isSelected()) {
+                file = uploadFingerprint();
+                AcessoPublicoDataScreen screen = new AcessoPublicoDataScreen();
+                screen.setVisible(true);
+                this.dispose();
+            } else if (rbDiretoria.isSelected()) {
+                file = uploadFingerprint();
+                AcessoDiretoresDataScreen screen = new AcessoDiretoresDataScreen();
+                screen.setVisible(true);
+                this.dispose(); 
+            } else if (rbMinisterio.isSelected()) {
+                JOptionPane.showMessageDialog(null, "Nenhum usuário cadastrado para esse departamento");
+            }
+        }
+    }//GEN-LAST:event_btnUploadAuthImageMouseClicked
+
+    private void selectScreen() {
+        JFrame screen = null;
+        URL dpto = null;
+        String probe = null;
+        String candidate = null;
+        boolean auth;
+        if (groupDptos.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Selecione um departamento!");
+        } else {
+            if (rbPublico.isSelected()) {
+                dpto = getClass().getClassLoader().getResource("/probe-publico1.png");
+                screen = new AcessoPublicoDataScreen();
+            } else if (rbDiretoria.isSelected()) {
+                dpto = getClass().getClassLoader().getResource("/probe-diretor1.png");
+                screen = new AcessoDiretoresDataScreen();
+            } else if (rbMinisterio.isSelected()) {
+                JOptionPane.showMessageDialog(null, "Nenhum usuário cadastrado para esse departamento");
+            }
+            try {
+                probe = dpto.toString();
+                candidate = uploadFingerprint();
+                auth = Authentication.compareFingerprint(probe, candidate);
+                if (auth == true) {
+                    screen.setVisible(true);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(AuthScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private String uploadFingerprint() {
         JFileChooser fileChooser = new JFileChooser();
         int returnVal = fileChooser.showOpenDialog(fileChooser);
-        if (returnVal == JFileChooser.APPROVE_OPTION){
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             filePath = fileChooser.getSelectedFile().getAbsolutePath();
         } else {
             JOptionPane.showMessageDialog(null, "Imagem não carregada");
         }
-    }//GEN-LAST:event_btnUploadAuthImageMouseClicked
-
-    private String getFingerprintFilePath(){
-        return this.filePath;
+        return filePath;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -121,6 +214,11 @@ public class AuthScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnUploadAuthImage;
+    private javax.swing.ButtonGroup groupDptos;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JRadioButton rbDiretoria;
+    private javax.swing.JRadioButton rbMinisterio;
+    private javax.swing.JRadioButton rbPublico;
     // End of variables declaration//GEN-END:variables
 }
